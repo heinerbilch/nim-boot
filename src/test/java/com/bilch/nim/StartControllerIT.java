@@ -41,7 +41,7 @@ public class StartControllerIT {
 	@Test
 	public void testDraw() {
 		ResponseEntity<String> response = template.getForEntity(base.toString() + "/start/draw/1", String.class);
-		assertThat(response.getBody(), equalTo("12"));
+		assertThat(response.getBody(), equalTo("11"));
 	}
 
 }

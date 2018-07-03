@@ -31,7 +31,7 @@ public class StartControllerTest {
 	@Test
 	public void testDraw() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/start/draw/1").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk()).andExpect(content().string(equalTo("12")));
+				.andExpect(status().isOk()).andExpect(content().string(equalTo("11")));
 	}
 
 	@Test
@@ -41,15 +41,19 @@ public class StartControllerTest {
 	}
 
 	@Test
+	public void testDrawZero() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/start/draw/0").accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isNotFound());
+	}
+
+	@Test
 	public void testDrawOver() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/start").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
 		.andExpect(content().string(equalTo("13")));
 		mvc.perform(MockMvcRequestBuilders.get("/start/draw/3").accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isOk()).andExpect(content().string(equalTo("10")));
+		.andExpect(status().isOk()).andExpect(content().string(equalTo("9")));
 		mvc.perform(MockMvcRequestBuilders.get("/start/draw/3").accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isOk()).andExpect(content().string(equalTo("7")));
-		mvc.perform(MockMvcRequestBuilders.get("/start/draw/3").accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isOk()).andExpect(content().string(equalTo("4")));
+		.andExpect(status().isOk()).andExpect(content().string(equalTo("5")));
 		mvc.perform(MockMvcRequestBuilders.get("/start/draw/3").accept(MediaType.APPLICATION_JSON))
 		.andExpect(status().isOk()).andExpect(content().string(equalTo("1")));
 		mvc.perform(MockMvcRequestBuilders.get("/start/draw/2").accept(MediaType.APPLICATION_JSON))

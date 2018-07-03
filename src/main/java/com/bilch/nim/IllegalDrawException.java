@@ -23,7 +23,7 @@ public class IllegalDrawException extends RuntimeException {
 	 */
 	public IllegalDrawException(final String message) {
 		super("Illegal draw: " + message);
-		logger.error("Illegal draw: " + message);
+		logger.warn("Illegal draw: " + message);
 	}
 
 }

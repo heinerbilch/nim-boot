@@ -38,13 +38,13 @@ public class Stack {
 	 *            the number of pieces to draw from the stack
 	 * @return the new stack value
 	 */
-	public int draw(int number) {
-		if (number > 3) {
-			throw new IllegalDrawException(String.valueOf(number));
+	public int draw(final int number) {
+		if (number > 3 || number < 1) {
+			throw new IllegalDrawException("Illegal draw: " + String.valueOf(number));
 		}
 		value -= number;
 		if (value < 0) {
-			throw new IllegalDrawException(String.valueOf(value));
+			throw new IllegalDrawException("Illegal stack value: " + String.valueOf(value));
 		}
 		logger.info("Stack value: " + value);;
 		return value;
