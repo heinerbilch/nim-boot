@@ -42,7 +42,7 @@ public class StartControllerIT {
 	@Test
 	public void testDraw() {
 		ResponseEntity<String> response = template.getForEntity(base.toString() + "/start/draw/1", String.class);
-		assertThat(Integer.parseInt(response.getBody()),lessThan(12));
+		assertThat(Integer.valueOf(response.getBody()),lessThan(12));
 	}
 
 }
