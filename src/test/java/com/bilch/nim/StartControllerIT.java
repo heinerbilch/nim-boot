@@ -1,6 +1,7 @@
 package com.bilch.nim;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertThat;
 
 import java.net.URL;
@@ -41,7 +42,7 @@ public class StartControllerIT {
 	@Test
 	public void testDraw() {
 		ResponseEntity<String> response = template.getForEntity(base.toString() + "/start/draw/1", String.class);
-		assertThat(response.getBody(), equalTo("11"));
+		assertThat(Integer.parseInt(response.getBody()),lessThan(12));
 	}
 
 }
