@@ -44,9 +44,9 @@ public class Stack {
 		}
 		value -= number;
 		if (value < 0) {
-			throw new IllegalDrawException("Illegal stack value: " + String.valueOf(value));
+			throw new IllegalStackException("Illegal stack value: " + String.valueOf(value));
 		}
-		logger.info("Stack value: " + value);;
+		logger.info("Stack value: " + value);
 		return value;
 	}
 

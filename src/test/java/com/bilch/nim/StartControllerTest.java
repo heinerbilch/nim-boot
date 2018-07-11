@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,11 @@ public class StartControllerTest {
 
 	@Autowired
 	private MockMvc mvc;
+	
+	@Before
+	public void setUp() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/start"));
+	}
 
 	@Test
 	public void testStart() throws Exception {
@@ -37,13 +43,13 @@ public class StartControllerTest {
 	@Test
 	public void testDrawToMany() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/start/draw/4").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isNotFound());
+				.andExpect(status().isOk()).andExpect(content().string(equalTo("13")));
 	}
 
 	@Test
 	public void testDrawZero() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/start/draw/0").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isNotFound());
+				.andExpect(status().isOk()).andExpect(content().string(equalTo("13")));
 	}
 
 	@Test
