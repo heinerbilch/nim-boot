@@ -20,6 +20,7 @@ public class StartController {
 	private Stack stack;
 	private Boss boss;
 	private static final Logger logger = LoggerFactory.getLogger(StartController.class);
+	private static final int MAXDRAW = 7;
 
 	/**
 	 * initializes the nim game
@@ -41,25 +42,43 @@ public class StartController {
 	 */
 	@GetMapping("/draw/{noOfPieces}")
 	public int draw(@PathVariable int noOfPieces) {
-		try {
-			stack.draw(noOfPieces);
-		} catch (IllegalDrawException e) {
-			logger.warn(e.getLocalizedMessage() + ". Please draw 1,2 or 3 pieces.");
-			return stack.getValue();
-		} catch (IllegalStackException e) {
-			logger.warn(e.getLocalizedMessage() + ". Please draw less pieces, the stack can't be negative.");
-			return stack.getValue();
-		}
-		int bossStack;
-		try {
-			bossStack = boss.draw();
-		} catch (IllegalDrawException e) {
-			logger.warn(e.getLocalizedMessage());
-			bossStack = stack.getValue();
-		} catch (IllegalStackException e) {
-			logger.warn(e.getLocalizedMessage());
-			bossStack = stack.getValue();
+		int playerStack = 0;
+		playerDraw(noOfPieces);
+		int bossStack = stack.getValue();
+		if (playerStack > 0) {
+			try {
+				bossStack = boss.draw();
+			} catch (IllegalDrawException e) {
+				logger.warn(e.getLocalizedMessage());
+				bossStack = stack.getValue();
+			} catch (IllegalStackException e) {
+				logger.warn(e.getLocalizedMessage());
+				bossStack = stack.getValue();
+			}
 		}
 		return bossStack;
+	}
+
+	private void playerDraw(int noOfPieces) {
+		boolean drawAgain = true;
+		boolean notToMany = true;
+		int i = 0;
+		while (drawAgain && notToMany) {
+			try {
+				stack.draw(noOfPieces);
+				drawAgain = false;
+			} catch (IllegalDrawException e) {
+				i++;
+				logger.warn(e.getLocalizedMessage() + ". Please draw 1,2 or 3 pieces.");
+			} catch (IllegalStackException e) {
+				i++;
+				logger.warn(e.getLocalizedMessage() + ". Please draw less pieces, the stack can't be negative.");
+			} finally {
+				if (i > MAXDRAW) {
+					notToMany = false;
+					logger.warn("Maximum number of draws exhausted");
+				}
+			}
+		}
 	}
 }
